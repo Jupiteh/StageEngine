@@ -1,0 +1,20 @@
+// {
+//     "name": "Stage Engine",
+//     "short_name": "SE",
+//     "start_url": "http://StageEngine.local/VUE/indexFront.php",
+//     "background_color": "#84A9CF",
+//     "theme_color": "#84A9CF",
+//     "display": "standalone",
+//     "icons": [
+//         {
+//             "src": "../assets/images/logo.png",
+//             "sizes": "192x192",
+//             "type": "image/png"
+//         },
+//         {
+//             "src": "../assets/images/logo.png",
+//             "sizes": "512x512",
+//             "type": "image/png"
+//         }
+//     ]
+// }
