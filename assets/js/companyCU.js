@@ -55,7 +55,6 @@ function checkCompanyName() {
                             $("#submit").prop('disabled', false);
                         }
                     }
-                    // console.log(data);
                 });
         }
     });
