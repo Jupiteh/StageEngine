@@ -1,57 +1,72 @@
 <!-- LINK -->
 <?php require_once 'link.php' ?>
 
-<!-- NAVBAR -->
-<?php require_once 'navbar.php' ?>
-
-<!-- JS -->
-<script type="text/javascript" src="../assets/js/mail.js"></script>
-
 <!-- Db -->
 <?php require_once '../MODEL/linkDb.php' ?>
 <!-- Db -->
 
+<!-- MAIL CONTROLLER -->
+<?php require_once '../CONTROLLER/mailController.php' ?>
+<!-- MAIL CONTROLLER -->
+
+<!-- NAVBAR -->
 <?php
-$offerID = $_GET['offerID'];
-$login = $_GET['login'];
-
-// Récupère l'email de l'entreprise
-$getEmail = $bdd->prepare("SELECT email FROM offer WHERE offerID='$offerID'");
-$getEmail->execute();
-$result = $getEmail->fetch();
-$email = $result[0];
-
-require_once '../CONTROLLER/mailController.php'
+require_once 'navbar.php'
 ?>
 
+<!-- JS -->
+<script type="text/javascript" src="../assets/js/mail.js"></script>
+
+
+
+
+
+
 <img src="../assets/gif/loaderNoir.gif" id="loader" class='display-none'>
+
 <div class="row mail-form">
 	<div class="col-md-9 col-md-offset-2">
-
 		<form role="form" class='mail-form-balise' method="post" enctype="multipart/form-data">
+			<!-- Message d'erreur -->
+			<div style='border:3px solid red;' class='display-none' id='error-message'>
+				<h4><b>Erreur lors de l'envois de l'e-mail.</b></h4>
+			</div>
+			<!-- Message de réussite -->
+			<div style="border:3px solid green;" class='display-none' id='sent-message'>
+				<h4><b>Le mail a bien été envoyé.</b></h4>
+			</div>
+
 			<h3><b>Postulation par email:</b></h3></br>
 			<div class="row">
 				<div class="col-sm-9 form-group">
 					<label for="email">Email entreprise:</label>
-					<input type="email" class="form-control" id="email" name="email" value='<?= $email ?>' placeholder="Email entreprise..." maxlength="50">
+					<input type="email" class="form-control" id="email" name="emailDisabled" value='<?= $email ?>' placeholder="Email entreprise..." maxlength="50" disabled>
+					<!-- J'ajoute un hidden input contenant lui aussi le mail car l'input disabled d'au dessus ne peux être POST -->
+					<input type="email" class="form-control" id="email" name="email" value='<?= $email ?>' placeholder="Email entreprise..." maxlength="50" hidden>
 				</div>
 			</div></br>
 			<div class="row">
 				<div class="col-sm-9 form-group">
 					<label for="subject">Objet:</label>
-					<input type="text" class="form-control" id="subject" name="subject" placeholder="Objet..." maxlength="50">
+					<input type="text" class="form-control" id="subject" name="subject" placeholder="Objet..." maxlength="50" required>
 				</div>
 			</div></br>
 			<div class="row">
 				<div class="col-sm-9 form-group">
-					<label for="name">Lettre de motivation:</label>
-					<textarea class="form-control" type="textarea" id="message" name="message" placeholder="Collez votre lettre de motivation ici..." maxlength="6000" rows="4"></textarea>
+					<label for="name">Message:</label>
+					<textarea class="form-control" type="textarea" id="message" name="message" placeholder="Insérez votre message ici..." maxlength="6000" rows="4" required></textarea>
 				</div></br>
 			</div></br>
 			<div class="row">
 				<div class="col-sm-9 form-group">
 					<label for="name">Votre CV:</label>
-					<input name="file[]" multiple="multiple" class="form-control" type="file" id="file">
+					<input name="file[]" multiple="multiple" class="form-control" type="file" id="cv" required>
+				</div></br>
+			</div></br>
+			<div class="row">
+				<div class="col-sm-9 form-group">
+					<label for="name">Votre Lettre de motivation:</label>
+					<input name="file[]" multiple="multiple" class="form-control" type="file" id="lettre" required>
 				</div></br>
 			</div></br>
 			<div class="row">
@@ -68,7 +83,7 @@ require_once '../CONTROLLER/mailController.php'
 		position: absolute;
 		padding-top: 15%;
 		padding-left: 40%;
-		
+
 	}
 </style>
 

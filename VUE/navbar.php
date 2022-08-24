@@ -50,7 +50,9 @@
     </div>
   </div>
   <!-- authController -->
-  <?php require_once '../CONTROLLER/authController.php' ?>
+  <?php 
+  require_once '../CONTROLLER/authController.php' 
+  ?>
 </nav>
 <div class="card auth-card display-none">
   <div class="card-body">
@@ -58,7 +60,7 @@
       <label for="LoginAuth">Login:</label><br>
       <input type="text" id="LoginAuth" name="LoginAuth"><br>
       <label for="mdpAuth">Mot de passe:</label><br>
-      <input type="text" id="mdpAuth" name="mdpAuth"><br><br>
+      <input type="password" id="mdpAuth" name="mdpAuth"><br><br>
 
       <input type="submit" name='auth' class='btn btn-light mb-2' value="Connection">
     </form>

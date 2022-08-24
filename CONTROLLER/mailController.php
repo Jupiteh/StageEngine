@@ -1,11 +1,21 @@
 <?php
 
+
+$offerID = $_GET['offerID'];
+$login = $_GET['login'];
+
+// Récupère l'email de l'entreprise
+$getEmail = $bdd->prepare("SELECT email FROM offer WHERE offerID='$offerID'");
+$getEmail->execute();
+$result = $getEmail->fetch();
+$email = $result[0];
+
 // Lors de l'envois
 
 if (isset($_POST['sendmail'])) {
+
   require '../assets/lib/mailer/PHPMailerAutoload.php';
   require '../assets/lib/mailer/credential.php';
-
 
   $mail = new PHPMailer;
 
@@ -34,6 +44,7 @@ if (isset($_POST['sendmail'])) {
   // $mail->addAttachment($_FILES['file']['tmp_name'][$i], $_FILES['file']['name'][$i]);    // Optional name
   // }
   $mail->addAttachment($_FILES['file']['tmp_name'][0], $_FILES['file']['name'][0]);    // Optional name
+  $mail->addAttachment($_FILES['file']['tmp_name'][1], $_FILES['file']['name'][1]);    // Optional name  
 
   $mail->isHTML(true);                                  // Set email format to HTML
 
@@ -42,27 +53,38 @@ if (isset($_POST['sendmail'])) {
   $mail->AltBody = $_POST['message'];
 
   if (!$mail->send()) {
-    echo "<div style='border:2px solid red;'><h4>Erreur lors de l'envois de l'e-mail.</b></h4></div>";
+  ?>
+    <script>
+      $(document).ready(function() {
+        $("#error-message").show();
+      });
+    </script>
+  <?php
     // echo 'Mailer Error: ' . $mail->ErrorInfo;
   } else {
-    echo '<div style="border:2px solid green;"><h4><b>Le message a bien été envoyé.</b></h4></div>';
+  ?>
+    <script>
+      $(document).ready(function() {
+        $("#sent-message").show();
+      });
+    </script>
+  <?php
 
     // Passe l'état à 'postulé' quand l'email est envoyé
     // $setApply = $bdd->prepare("UPDATE `wishlist` SET `apply`=1 WHERE offerID='$offerID' AND login='$login'");
     // $setApply->execute();
 
     // REDIRECT
-    // sleep(5);
     // header('Location: ../VUE/account.php');
+    header('refresh:2;url=../VUE/indexFront.php');
   }
 
   // Recacher le loader
   // Le JS n'est pas dans un fichier externe pour pouvoir enlever le loader au moment ou le mail a été envoyé
-?>
+  ?>
   <script>
     $(document).ready(function() {
-
-      $("#loader").addClass('display-none');
+      $("#loader").hide();
     });
   </script>
 <?php
